@@ -55,9 +55,10 @@ def Wdist(X, Y, reg=0., p=2.):
     b = 1.0 / (n + m) * np.ones(m)  # weight vector of the input diagram. Uniform here.
     hat_b = np.append(b, n/(m+n))  # so that we have a probability measure, required by POT
     if reg > 0:
-        return (n+m) * ot.bregman.sinkhorn2(hat_a, hat_b, M, reg=reg)
+        ot_cost = (n+m) * ot.bregman.sinkhorn2(hat_a, hat_b, M, reg=reg)
     else:
-        return (n+m) * ot.emd2(hat_a, hat_b, M)
+        ot_cost = (n+m) * ot.emd2(hat_a, hat_b, M)
+    return np.power(ot_cost, 1./p)
 
 
 if __name__=="__main__":
